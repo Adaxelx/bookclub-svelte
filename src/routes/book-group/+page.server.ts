@@ -1,10 +1,8 @@
-import { createBookGroupComposer } from '$lib/CreateBookGroup'
-import type { RequestEvent } from '@sveltejs/kit'
+import { createBookGroupComposer } from '$lib/use-cases/CreateBookGroup'
+import { svelteAdapter } from '$lib/adapters/svelteAdapter.js'
 
 export const actions = {
-	default: async ({ request }: RequestEvent) => {
-		return createBookGroupComposer().handle(request)
-	},
+	default: svelteAdapter(createBookGroupComposer()),
 }
 
 //Flow

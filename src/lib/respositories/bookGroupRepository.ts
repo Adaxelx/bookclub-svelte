@@ -2,7 +2,7 @@ import type { BookGroupDTO } from '$lib/DTO/bookGroupDTO'
 import type { PrismaClient } from '@prisma/client'
 
 export class BookGroupRepository {
-	#db: PrismaClient // TODO: this can be replaced with more generic type
+	#db: PrismaClient // TODO: this in ideal scerario is not prisma client but some more generic type (which have method findFirst etc)
 	constructor(db: PrismaClient) {
 		this.#db = db
 	}
@@ -12,5 +12,15 @@ export class BookGroupRepository {
 			data: bookGroup,
 		})
 		return createdBookGroup
+	}
+
+	async findByNameForCreator({ name, creatorId }: BookGroupDTO) {
+		const bookGroup = await this.#db.bookGroup.findFirst({
+			where: {
+				name,
+				creatorId,
+			},
+		})
+		return bookGroup
 	}
 }
